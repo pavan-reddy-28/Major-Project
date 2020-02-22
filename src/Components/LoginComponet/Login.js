@@ -74,12 +74,12 @@ const DisplayLoginCard = (props) => {
                       <div className=" name form-label-group  " style={{ 'width': '85%' }}>
                         <input
                           type="text" id="inputUsername" className="form-control text-center"
-                          placeholder="Roll Number" autoCapitalize={"characters"}
+                          placeholder="State Id" autoCapitalize={"characters"}
                           autoComplete="username"
                           value={username}
                           onChange={(event) => { setUsername(event.target.value) }}
                           required />
-                        <label htmlFor="inputUsername" >Roll Number</label>
+                        <label htmlFor="inputUsername" >State ID</label>
                       </div>
                       {/* Password */}
                       <div className=" name form-label-group " style={{ 'width': '85%' }} >
