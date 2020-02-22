@@ -1,0 +1,44 @@
+ 
+.navbar,
+.navbar-default {
+  color:blue;
+    background-image: linear-gradient(to bottom,rgba(240, 111, 111, 0.884) 0,rgba(240, 111, 111, 0.884) 100%) !important; /* override background image gradient w/ flat color */
+}
+.navbar-brand {
+  letter-spacing: 1px;
+  font-size: 2em;
+}
+.navbar-dark .navbar-nav .nav-link {
+letter-spacing: 1px;
+font-family: 'Times New Roman', Times, serif;
+font-size: 24px;
+font-size: 18px;
+    color: rgba(44, 38, 38, 0.89);
+}
+/* Icons Color */
+.fas{
+ color: black; 
+}
+
+
+.navbar{
+    
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.25), 0 6px 20px 0 rgba(0, 0, 0, 0.20);
+   cursor: pointer;
+   transition: 0.4s;
+   }
+  .navbar:hover {
+        
+    
+       box-shadow: 8px 10px 5px rgba(53, 51, 51, 0.774);
+  }
+  
+  .navbar.content-actived{
+    padding: 15px 10px;
+    margin-left: 80px;
+     top: 20px;
+     background: rgba(248, 235, 235, 0.952);
+  }
+  
+  
+  
