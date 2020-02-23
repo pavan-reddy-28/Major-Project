@@ -1,20 +1,20 @@
-import React, { useState ,useEffect} from 'react'
-import { Row, Container, Card, Button, ListGroup,ButtonToolbar } from 'react-bootstrap'
+import React, { useState, useEffect } from 'react'
+import { Row, Container, Card, Button, ListGroup, ButtonToolbar } from 'react-bootstrap'
 import './style.css'
 
 // import chatHttpServer from '../../utils/chatHttpServer'
 import { Redirect, Link } from 'react-router-dom'
 
-import StateUnionComponent from './StateUnionComponent'
-const StateDashBoard=()=> {
-    const[mailId,setmailId]= useState("");
-    const[profileName,setProfileName] = useState("");
-    const[acadamicDeatils,setAcademicDetails]=useState("");
-    const[questions,setQuestions]=useState([])
-    const[skills,setSkills] = useState([])
-    const[userSkills,setUserSkills] = useState([])
-    const[tempSkills,setTempSkills] = useState("")
-    useEffect(()=>{
+import SchemeComponent from './SchemeComponent'
+const StateDashBoard = () => {
+    const [mailId, setmailId] = useState("");
+    const [profileName, setProfileName] = useState("");
+    const [acadamicDeatils, setAcademicDetails] = useState("");
+    const [questions, setQuestions] = useState([])
+    const [skills, setSkills] = useState([])
+    const [userSkills, setUserSkills] = useState([])
+    const [tempSkills, setTempSkills] = useState("")
+    useEffect(() => {
         console.log("in")
         // chatHttpServer.getUserInfo()
         // .then(res=>{
@@ -49,13 +49,13 @@ const StateDashBoard=()=> {
         // }
         // )
 
-return () => {
-    alert("unmount")
-  console.log('will unmount');
-}
+        return () => {
+            alert("unmount")
+            console.log('will unmount');
+        }
 
 
-},[]);
+    }, []);
 
 
 
@@ -63,56 +63,61 @@ return () => {
 
     return (
         <>
-            <Row className="pt-4">
+            <Row className=" mx-auto pt-4">
                 {/* profile Card */}
-                
+
+                {/* ADD STATE */}
+                <Card
+                    className="pt-5 border-0 ml-2"
+                    style={{ width: '15rem', backgroundColor: 'transparent' }}>
+
+                    <Card.Body >
+                        <Card.Title className="mt-4" >
+                            <Button
+
+                                className="m-3  mt-4 pt-3 p-1 btn-md"
+                                variant="outline-dark"
+                                style={{ 'borderRadius': '20px', fontSize: '30px', width: '240px', position: 'fixed', borderWidth: '5px', }} >
+                                ADD SCHEME
+                   </Button>
+
+                        </Card.Title>
+                    </Card.Body>
+                </Card>
+
+
                 {/* STATES AND  UNINON TERRITORY CARD*/}
-                <Card className="  p-3 border-0" style={{ width: '55rem', height: 'auto', marginLeft: '40px',backgroundColor:'transparent','borderRadius': '20px' }}>
-                <Button
-                       
-                       className="mx-auto p-1 btn-md"
-                       variant="outline-dark"
-                       style={{ 'borderRadius': '20px' ,fontSize:'30px',width:'240px' }} >
-                           {/* Badge */}
-                           
-                       StateDashBoard
+                <Card className=" mx-auto  border-0" style={{ width: '55rem', height: 'auto', marginLeft: '40px', backgroundColor: 'transparent', 'borderRadius': '20px' }}>
+                    <Button
+
+                        className="mx-auto p-1 btn-md"
+                        variant="outline-dark"
+                        style={{ 'borderRadius': '20px', fontSize: '30px', width: '240px' }} >
+                        {/* Badge */}
+
+                        State Schemes
                    </Button>
                     <Card.Body>
                         {/* //States Card */}
-                        <StateUnionComponent details={{skills:skills,userSkills:userSkills,type:'States'}}></StateUnionComponent>
-                       
-                       {/* UNION TERRITORY CARD */}
-                        <StateUnionComponent  details={{skills:skills,userSkills:userSkills,type:"Union Territory"}}></StateUnionComponent>
-                                   
-           
+                        {/* <StateUnionComponent details={{ skills: skills, userSkills: userSkills, type: 'States' }}></StateUnionComponent> */}
+
+                        {/* UNION TERRITORY CARD */}
+                        {
+                            [1, 2, 3, 4, 5, 6, 7, 8, 9].map((i, j) => (
+                                <SchemeComponent
+                                    key={i}
+                                    details={{
+                                        skills: skills,
+                                        userSkills: userSkills,
+                                        Title: "PAVAN's SOFTWARE DEVELOPMENT ACADEMY FOR PROGRAMMERS"
+                                    }}>
+                                </SchemeComponent>))
+                        }
+
                     </Card.Body>
                 </Card>
 
-                {/* ADD STATE */}
-                <Card 
-                className="pt-5 border-0 ml-2" 
-                style={{ width: '15rem',backgroundColor:'transparent' }}>
-                    
-                    <Card.Body >
-                        <Card.Title>
-                        <Button
-                       
-                       className="m-3 p-1 btn-md"
-                       variant="outline-dark"
-                       style={{ 'borderRadius': '20px' ,fontSize:'30px',width:'240px',position:'fixed',borderWidth:'5px' }} >
-                         
-                           
-                       ADD STATE
-                   </Button>
-                        
-                        </Card.Title>
-                      
-                            
 
-                        
-                    </Card.Body>
-                </Card>
-                
             </Row>
         </>
     )
