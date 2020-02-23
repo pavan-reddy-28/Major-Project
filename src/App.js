@@ -13,6 +13,7 @@ import LoginComponet from './Components/LoginComponet/Login'
 import Counter from './Components/NavBar/Counter'
 import DashBoardCentral from './Components/Dashboard/CentralDashBoard'
 import DashBoardState from './Components/Dashboard/StateDashboard'
+import AddScheme from './Components/Dashboard/AddScheme'
 import NotFound from './Components/not-found/NotFound'
 function App() {
   return (
@@ -23,14 +24,17 @@ function App() {
           {/* <Route path="/" >
             <LoginComponet/>
           </Route> */}
-          <Route path="/Login" >
+          <Route path="/login" >
             <LoginComponet/>
           </Route>
-          <Route path="/Dashboard" >
+          <Route path="/dashboard" >
             <DashBoardCentral/>
           </Route>
-          <Route path="/StateDashboard" >
+          <Route path="/stateDashboard" >
             <DashBoardState/>
+          </Route>
+          <Route path="/addScheme" >
+            <AddScheme/>
           </Route>
           <Route component={NotFound} />
       </Switch>
