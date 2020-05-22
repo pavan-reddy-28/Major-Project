@@ -2,11 +2,11 @@ var express = require('express');
 var router = express.Router();
 var Scheme = require('../sequelize').Scheme;
 
-router.get('/', function (req, res) {
+router.post('/', function (req, res) {
     if (req.isAuthenticated()) {
         Scheme.findAll({
             where: {
-                id: req.query.id
+                governmentId: req.body.id
             }
         }).then(result => {
             console.log(result)

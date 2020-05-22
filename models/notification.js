@@ -15,6 +15,9 @@ module.exports = (sequelize, Sequelize) => {
                 key: 'id', // 'id' refers to column name in governments table
             }
         },
+        name:{
+              type:Sequelize.STRING
+        },
         value: {
             type: Sequelize.INTEGER,
             defaultValue: 0

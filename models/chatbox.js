@@ -1,21 +1,24 @@
 module.exports = (sequelize, Sequelize) => {
-    return sequelize.define('government', {
-        id:{
+    return sequelize.define('chatbox', {
+        id: {
             type: Sequelize.INTEGER,
             primaryKey: true,
             autoIncrement: true
         },
-        name: {
-            type: Sequelize.STRING,
-            unique: true,
-            allowNull: false
-        },
-        password: {
+        messageData: {
             type: Sequelize.STRING,
             allowNull: false
         },
-        type: {
+        schemeId: {
+            type: Sequelize.INTEGER,
+            references: {
+                model: 'schemes', // 'schemes' refers to table name
+                key: 'id', // 'id' refers to column name in schemes table
+            }
+        },
+        from: {
             type: Sequelize.STRING,
+            allowNull: false
         },
         createdAt: {
             type: Sequelize.DATE(3),

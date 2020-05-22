@@ -10,11 +10,7 @@ module.exports = (sequelize, Sequelize) => {
             unique: true,
             allowNull: false
         },
-        code: {
-            type: Sequelize.STRING,
-            unique: true,
-            allowNull: false
-        },
+       
         department: {
             type: Sequelize.STRING,
         },

@@ -14,21 +14,24 @@ passport.use(new LocalStrategy(
     },
     (id, password, done) => {
         console.log('inside passport')
-        var hash = crypto.createHash('md5').update(password).digest('hex');
+        var hash = password;//crypto.createHash('md5').update(password).digest('hex');
         Government.findOne({
             where: {
                 id: id
             }
         }).then(user => {
+            console.log("enteredt password : "+hash);
+            hash2=crypto.createHash('md5').update(user.password).digest('hex')
+            console.log('retrived password :: '+hash2)
             if (!user) {
                 console.log("Invalid GovernmentId")
                 return done(null, false, { "isAuthenticated": false, "message": "Invalid GovernmentId" });
             }
             else {
-                if (hash == user.password) {
+                if (hash ===hash2 ) {
                     return done(null, user)
                 } else {
-                    console.log("Invalid password")
+                    console.log("Invalid password "+crypto.createHash('md5').update(user.password).digest('hex'))
                     return done(null, false, { "isAuthenticated": false, "message": "Invalid Password" });
                 }
             }

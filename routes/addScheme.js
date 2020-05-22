@@ -8,14 +8,14 @@ var GovtSchemeMapping = require('../sequelize').GovtSchemeMapping;
 router.post('/', function (req, res) {
     if (req.isAuthenticated()) {
         const data = {
-            name: req.body.name,
-            code: req.body.code,
-            department: req.body.department,
+            name: req.body.title,
             description: req.body.description,
-            purpose: req.body.purpose,
-            governmentId: req.user.id,
-            estimation: req.body.estimation,
+            fundsDisbursed :req.body.schemeFund,
+            governmentId: req.body.govtId,
+            approved : 0,
+            
         };
+        console.log('line 18 data ==== ')
         console.log(data)
         Scheme.create(data).then(result => {
             addToGovtSchemeMapping(data.governmentId, result.id, res)
@@ -46,7 +46,7 @@ function updateNotification(governmentId, res) {
     Notification.increment('value', { where: { governmentId: governmentId } })
         .then(result => {
             console.log(result)
-            res.send({ message: "Scheme added successfully" })
+            res.send({success:true})
         }).catch(error => {
             console.log(error)
             res.status(500).send(error)

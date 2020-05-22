@@ -2,11 +2,11 @@ var express = require('express');
 var router = express.Router();
 var Notification = require('../sequelize').Notification;
 
-router.get('/', function (req, res) {
+router.post('/', function (req, res) {
     if (req.isAuthenticated()) {
         Notification.findAll({
             where: {
-                type: "territory"
+                type: "union"
             }
         }).then(result => {
             console.log(result)
