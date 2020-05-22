@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Navbar, Nav, Button } from 'react-bootstrap/';
 import './style.css'
 import { Redirect, Link } from 'react-router-dom'
+import chatHttpServer from '../../utils/chatHttpServer';
 
 const Title = () => {
   return (
@@ -10,7 +11,9 @@ const Title = () => {
     </h1>
   )
 }
-
+const handleLogout = (props)=>{
+      props.logoutHandler(!props.isAuthenticated);
+}
 function Counter(props) {
   const [isAuth, setIsAuth] = useState(true);
 
@@ -38,14 +41,17 @@ function Counter(props) {
             {
               props.isAuthenticated ?
                 <>
-
-
-
                   {/* LOGOUT ICON */}
-                  <Link to={{
-                    pathname: '/Home',
-                  }} style={{ color: '#000', textDecoration: 'none' }}>
-                    <Nav className="row p-1" title="Logout">
+                  <Link
+                  onClick={()=>{
+                     chatHttpServer.logOut()
+                    handleLogout(props)
+                  }
+                  }
+                  to={{
+                    pathname: '/login',
+                  }} style={{ color: '#000', textDecoration: 'none' }} >
+                    <Nav className="row p-1" title="Logout" >
                       <span className="col  fas fa-sign-out-alt  "
                         style={{ 'fontSize': '24px' }}>
                       </span>
@@ -57,8 +63,14 @@ function Counter(props) {
                 :
                  <>
                  {/* LOGIN ICON */}
-                 <Link to={{
-                  pathname: '/Login',
+                 <Link
+                  // onClick={()=>{
+                  //   // chatHttpServer.logOut()
+                  //   // handleLogout(props)
+                  // }
+                  // }
+                 to={{
+                  pathname: '/login',
                 }}
                   style={{ color: '#000', textDecoration: 'none' }}>
                   <Nav className="row p-1 " title="Log In" >

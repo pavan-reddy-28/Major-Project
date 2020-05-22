@@ -1,46 +1,24 @@
-import React, { useState, useEffect, Component } from 'react'
+import React, { useState, useEffect, Component ,PureComponent} from 'react'
 // import { Dropdown } from 'semantic-ui-react'
 import { Row, Container, Card, Button, ListGroup, Badge,ButtonToolbar } from 'react-bootstrap'
-
-class StateUnionComponent extends Component {
+import { withRouter } from 'react-router'
+import { Redirect, Link } from 'react-router-dom'
+class StateUnionComponent extends PureComponent {
 
     constructor(props) {
         super(props)
-
         this.state = {
-            tempSkill: [],
-            states: ["Andhra Pradesh","Arunachal Pradesh ","Assam","Bihar","Chhattisgarh","Goa","Gujarat","Haryana","Himachal Pradesh","Jammu and Kashmir","Jharkhand","Karnataka","Kerala","Madhya Pradesh","Maharashtra","Manipur","Meghalaya","Mizoram","Nagaland","Odisha","Punjab","Rajasthan","Sikkim","Tamil Nadu","Telangana","Tripura","Uttar Pradesh","Uttarakhand"
-        ],
-            unionTerritory :[
-                "West Bengal","Andaman and Nicobar Islands","Chandigarh","Dadra and Nagar Haveli","Daman and Diu","Lakshadweep","National Capital Territory of Delhi","Puducherry"
-            ]
+            detail : props.details,
+            
         }
     }
 
-    handleDropdown = (e, { value }) => {
-        this.setState({ tempSkill: value })
-    }
+   
+    
 
-    addSkillHandler = () => {
-        let temp = this.state.tempSkill
-        //console.log(temp, typeof temp, states, typeof states)
-        temp.push(...this.state.states)
-        let set = new Set(temp)
-        temp = Array.from(set)
-        console.log(temp)
-        this.setState({ states: temp })
-        this.setState({ tempSkill: [] })
-    }
-
-    // componentWillUnmount() {
-    //     console.log("127 unmount")
-    //     console.log(this.state.states)
-    //     chatHttpServer.updateSkills({ skills: this.state.states })
-    //         .then(res => console.log(res))
-    //         .catch(err => console.log(err))
-    // }
-
+   
     render() {
+        console.log(this.props.details)
         return (
             <Card className="mt-4 p-1 shadow-lg  " style={{'borderRadius': '25px'}} >
                 <Card.Title className="mx-auto">
@@ -53,24 +31,41 @@ class StateUnionComponent extends Component {
 
                             fontSize: "30px", fontWeight: 'bolder'
                         }} >
-                        {this.props.details.type}
+                        {this.props.type}
                         </Button>
                 </Card.Title>
                 <Card.Body>
 
                     <ButtonToolbar className="mx-auto   ">
                         {
-                            this.state.states.map(
-                                (skill, index) => (
+                            this.state.detail.map(
+                                (obj, index) => (
+                                    <Link
+                                    key={index}
+                                    to={{
+                                        pathname:'/CentralStateSchemeDetails',
+                                        state:{
+                                           Id:obj.id,
+                                           name :obj.name
+                                        }
+                                    }}
+                                    style={{ color: '#000', textDecoration: 'none' }}
+                                    >
                                     <Button
                                         key={index}
                                         className="m-3 p-2 btn-md"
                                         variant="outline-dark"
                                         style={{ 'borderRadius': '20px' ,fontSize:'20px',width:'180px' }} >
                                             {/* Badge */}
-                                            <Badge className="m-1" pill variant="danger">9</Badge>
-                                        {skill}
+                                            {
+                                                obj.value!==0?
+                                                <Badge className="m-1" pill variant="danger">{obj.value}</Badge>
+                                                :<></>
+                                            }
+                                            
+                                        {obj.name}
                                     </Button>
+                                    </Link>
                                 )
                             )
                         }</ButtonToolbar>
@@ -85,4 +80,4 @@ class StateUnionComponent extends Component {
     }
 }
 
-export default StateUnionComponent
+export default withRouter(StateUnionComponent)

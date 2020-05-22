@@ -1,61 +1,76 @@
-import React, { useState ,useEffect} from 'react'
-import { Row, Container, Card, Button, ListGroup,ButtonToolbar } from 'react-bootstrap'
+import React, { useState, useEffect } from 'react'
+import { Row, Spinner,Container, Card, Button, ListGroup, ButtonToolbar } from 'react-bootstrap'
 import './style.css'
 
-// import chatHttpServer from '../../utils/chatHttpServer'
+import chatHttpServer from '../../utils/chatHttpServer'
 import { Redirect, Link } from 'react-router-dom'
 
 import StateUnionComponent from './StateUnionComponent'
-const CentralDashBoard=()=> {
-    const[mailId,setmailId]= useState("");
-    const[profileName,setProfileName] = useState("");
-    const[acadamicDeatils,setAcademicDetails]=useState("");
-    const[questions,setQuestions]=useState([])
-    const[skills,setSkills] = useState([])
-    const[userSkills,setUserSkills] = useState([])
-    const[tempSkills,setTempSkills] = useState("")
-    useEffect(()=>{
+const CentralDashBoard = () => {
+
+    const [skills, setSkills] = useState([])
+    const [userSkills, setUserSkills] = useState([])
+
+    const [state, setState] = useState([])
+    const [territory, setTerritory] = useState([])
+
+    const [isTerritoryIsLoaded, setTerritoryIsLoaded] = useState(false)
+    const [isStateIsLoaded, setStateIsLoaded] = useState(false)
+    useEffect(() => {
         console.log("in")
-        // chatHttpServer.getUserInfo()
-        // .then(res=>{
-        //    console.log(res)
-        //    setmailId(res.email);
-        //    setProfileName(res.firstName)
-        //    setAcademicDetails({
-        //        section:res.section,
-        //        year : res.year,
-        //        branch:res.branch
-        //     });
-        //     if((res.skills).length>0)
-        //     setUserSkills(res.skills.split(","))
-        // })
+        chatHttpServer.getStatesFromNotification().then(res=>{
+            console.log(res);
+            let s_details = [];
+            for (let i = 0; i < res.length; i++) {
+                
 
-        // chatHttpServer.getQuestionsByUser()
-        // .then(res=>{
-        //    setQuestions(res.result)
-        // })
-
-        // chatHttpServer.getCategories()
-        // .then(res=>{
-        //     console.log(res)
-        //    let skillArray= res.map((obj,index)=>(
-        //          {
-        //             key:index,
-        //         value:obj.catName,
-        //         text:obj.catName
-        //         }
-        //    ))
-        //    setSkills(skillArray)
-        // }
-        // )
-
-return () => {
-    alert("unmount")
-  console.log('will unmount');
-}
+                    s_details.push({
+                        id:res[i].governmentId,
+                        name:res[i].name,
+                        value:res[i].value
+                                   });
+                }
 
 
-},[]);
+                setState(s_details);
+                setStateIsLoaded(true)
+        })
+
+        chatHttpServer.getTerritoriesFromNotification().then(res => {
+            console.log(res)
+            // let s_details = [];
+            let t_details = [];
+            for (let i = 0; i < res.length; i++) {
+                 
+                    t_details.push({
+                        id:res[i].governmentId,
+                        name:res[i].name,
+                        value:res[i].value
+                                   });
+                
+            }
+            
+            setTerritory(t_details);
+
+            setTerritoryIsLoaded(true)
+
+
+
+
+
+
+
+        }).catch(err => {
+            console.log(err)
+        })
+
+        return () => {
+            // alert("unmount")
+            console.log('will unmount');
+        }
+
+
+    }, []);
 
 
 
@@ -65,54 +80,71 @@ return () => {
         <>
             <Row className="pt-4">
                 {/* profile Card */}
-                
+
                 {/* STATES AND  UNINON TERRITORY CARD*/}
-                <Card className="  p-3 border-0" style={{ width: '55rem', height: 'auto', marginLeft: '40px',backgroundColor:'transparent','borderRadius': '20px' }}>
-                <Button
-                       
-                       className="mx-auto p-1 btn-md"
-                       variant="outline-dark"
-                       style={{ 'borderRadius': '20px' ,fontSize:'30px',width:'240px' }} >
-                           {/* Badge */}
-                           
+                <Card className="  p-3 border-0" style={{ width: '55rem', height: 'auto', marginLeft: '40px', backgroundColor: 'transparent', 'borderRadius': '20px' }}>
+                    <Button
+
+                        className="mx-auto p-1 btn-md"
+                        variant="outline-dark"
+                        style={{ 'borderRadius': '20px', fontSize: '30px', width: '240px' }} >
+                        {/* Badge */}
+
                        DASHBOARD
                    </Button>
                     <Card.Body>
-                        {/* //States Card */}
-                        <StateUnionComponent details={{skills:skills,userSkills:userSkills,type:'States'}}></StateUnionComponent>
-                       
-                       {/* UNION TERRITORY CARD */}
-                        <StateUnionComponent  details={{skills:skills,userSkills:userSkills,type:"Union Territory"}}></StateUnionComponent>
-                                   
-           
+
+                        {isStateIsLoaded ?
+                            <StateUnionComponent details={state} type={'States'} />
+                            :
+                            <Card className="mt-4 p-1 shadow-lg  " style={{ 'borderRadius': '25px' }} >
+                              
+                                <Card.Body className="mx-auto my-auto" >
+
+                                <Spinner style={{height:'180px',width:'180px'}} animation="border" /> 
+
+                                </Card.Body>
+                            </Card>
+                        }
+                        {isTerritoryIsLoaded ?
+                            <StateUnionComponent details={territory} type={'Union Territories'} />
+                            :
+                            <Card className="mt-4 p-1 shadow-lg  " style={{ 'borderRadius': '25px' }} >
+                              
+                                <Card.Body className="mx-auto my-auto" >
+
+                                <Spinner style={{height:'180px',width:'180px'}} animation="border" /> 
+
+                                </Card.Body>
+                            </Card>
+
+
+                        }
+
+
+
+
                     </Card.Body>
                 </Card>
 
                 {/* ADD STATE */}
-                <Card 
-                className="pt-5 border-0 ml-2" 
-                style={{ width: '15rem',backgroundColor:'transparent' }}>
-                    
-                    <Card.Body >
-                        <Card.Title>
-                        <Button
-                       
-                       className="m-3 p-1 btn-md"
-                       variant="outline-dark"
-                       style={{ 'borderRadius': '20px' ,fontSize:'30px',width:'240px',position:'fixed',borderWidth:'5px' }} >
-                         
-                           
-                       ADD STATE
-                   </Button>
-                        
-                        </Card.Title>
-                      
-                            
+                <Card
+                    className="pt-5 border-0 ml-2"
+                    style={{ width: '15rem', backgroundColor: 'transparent' }}>
 
-                        
+                    <Card.Body >
+                        {/* <Card.Title>
+                            <Button
+
+                                className="m-3 p-1 btn-md"
+                                variant="outline-dark"
+                                style={{ 'borderRadius': '20px', fontSize: '30px', width: '240px', position: 'fixed', borderWidth: '5px' }} >
+                                ADD STATE
+                   </Button>
+                        </Card.Title> */}
                     </Card.Body>
                 </Card>
-                
+
             </Row>
         </>
     )

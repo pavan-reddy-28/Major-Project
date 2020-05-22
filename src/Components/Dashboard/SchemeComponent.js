@@ -1,50 +1,51 @@
 import React, { useState, useEffect, Component } from 'react'
 // import { Dropdown } from 'semantic-ui-react'
 import { Row, Container, Card, Button, ListGroup, Badge,ButtonToolbar } from 'react-bootstrap'
-
+import { Redirect, Link } from 'react-router-dom'
+import { withRouter } from 'react-router'
 class SchemeComponent extends Component {
 
     constructor(props) {
         super(props)
-
+console.log("id :: "+this.props.details.id)
+console.log("name :: "+this.props.name)
         this.state = {
-            tempSkill: [],
-            schemeTitle:this.props.details.Title,
-            unionTerritory :[
-                "West Bengal","Andaman and Nicobar Islands","Chandigarh","Dadra and Nagar Haveli","Daman and Diu","Lakshadweep","National Capital Territory of Delhi","Puducherry"
-            ]
+            schemeTitle:this.props.details.name,
+           
         }
     }
 
-    handleDropdown = (e, { value }) => {
-        this.setState({ tempSkill: value })
-    }
+   
+  
 
-    addSkillHandler = () => {
-        let temp = this.state.tempSkill
-        //console.log(temp, typeof temp, states, typeof states)
-        temp.push(...this.state.states)
-        let set = new Set(temp)
-        temp = Array.from(set)
-        console.log(temp)
-        this.setState({ states: temp })
-        this.setState({ tempSkill: [] })
+    componentWillUnmount() {
+        
     }
-
-    // componentWillUnmount() {
-    //     console.log("127 unmount")
-    //     console.log(this.state.states)
-    //     chatHttpServer.updateSkills({ skills: this.state.states })
-    //         .then(res => console.log(res))
-    //         .catch(err => console.log(err))
-    // }
 
     render() {
         return (
-            <Card className="mt-4 p-1 shadow-lg  " style={{'borderRadius': '25px'}} >
+            <Link
+            to={{
+                pathname:'/schemeDetails',
+                state:{
+                    schemeId :this.props.details.id,
+                    title : this.props.details.name,
+                    description : this.props.details.description,
+                    fundsDisbursed: this.props.details.fundsDisbursed,
+                    approved: this.props.details.approved,
+                    from : this.props.from,
+                    stateName:this.props.name
+                }
+            }}
+            style={{ color: '#000', textDecoration: 'none' }}
+            >
+            <Card className="mt-4 p-1 shadow-lg  " style={{'borderRadius': '25px'}} 
+            
+            >
                 <Card.Title className="mx-auto">
+                    
                     <Button
-                        className="  btn-md "
+                        className="text-left  btn-md "
                         variant="light"
                         style={{
                             'borderRadius': '30px', 
@@ -64,9 +65,9 @@ class SchemeComponent extends Component {
 
                 </Card.Body>
             </Card>
-
+            </Link>
         )
     }
 }
 
-export default SchemeComponent
+export default withRouter(SchemeComponent)

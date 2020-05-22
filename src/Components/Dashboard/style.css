@@ -41,3 +41,29 @@
 	box-shadow: inset 0 0 6px rgba(0,0,0,.3);
 	background-color: black;
 }
+
+
+.addSchemeButton{
+  height:auto;
+  width:225px;
+  overflow-x: hidden;
+  transition: 2.5s;
+
+}
+.addSchemeButtonEffect{
+  width: 260px;
+  height: auto;
+  transition: width 2.5s;
+  display: block;
+
+}
+
+
+.my-little-app {
+  width: 500px;
+  margin: 50px auto;
+}
+
+.draft-editor-wrapper {
+  border: 1px solid #ccc;
+}

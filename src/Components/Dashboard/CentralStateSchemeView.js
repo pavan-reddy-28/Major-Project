@@ -4,31 +4,23 @@ import './style.css'
 
 import chatHttpServer from '../../utils/chatHttpServer'
 import { Redirect, Link } from 'react-router-dom'
-
+import { withRouter } from 'react-router'
 import SchemeComponent from './SchemeComponent'
-var myJSON = '{"name":"John", "age":31, "city":"New York"}';
+// var myJSON = '{"name":"John", "age":31, "city":"New York"}';
 const StateDashBoard = (props) => {
 
     const [isLoaded, setisLoaded] = useState(false)
 
     const[schemeTitles,setschemeTitles]=useState([])
 
-    const [addSchemeSlider, setaddSchemeSlider] = useState(true)
     const [allSchemes, setAllSchemes] = useState(true)
     const [acceptedSchemes, setAcceptedSchemes] = useState(true)
     const [rejectedSchemes, setRejectedSchemes] = useState(true)
-    const [govtName, setGovtName] = useState('')
     useEffect(() => {
-        console.log("in")
-        console.log(props.isAuthenticated)
-        chatHttpServer.userSessionCheck().then(res=>{
-                console.log((res.user.name));
-                setGovtName(res.user.name)
-        }).catch(err=>{
-
-        })
-            if(props.Id!==2000){
-            chatHttpServer.getSchemeById({id : props.Id}).then(res=>{
+        console.log(props.location.state);
+        // console.log(props.isAuthenticated)
+        if(props.location.state){
+            chatHttpServer.getSchemeById({id : props.location.state.Id}).then(res=>{
                 // setschemeTitles(res)
                 console.log(res)
               
@@ -42,7 +34,7 @@ const StateDashBoard = (props) => {
 
         }
         return () => {
-         
+            //  p;("unmount")
             
             
             console.log('will unmount');
@@ -55,15 +47,12 @@ const StateDashBoard = (props) => {
 
 
 
-
     return (
         <>
-            {
-                props.Id!==2000?
+   { props.location.state?
             <Row className=" mx-auto pt-4">
-                {/* profile Card */}
-
-                {/* ADD STATE */}
+        
+       
                 <Card
                     className="pt-5 border-0 ml-2 mx-auto"
                     style={{ width: '15rem', backgroundColor: 'transparent' }}>
@@ -72,27 +61,7 @@ const StateDashBoard = (props) => {
                     </Card.Title>
                     <Card.Body>
                         <ButtonToolbar style={{ position: 'fixed', width: '260px' }}>
-                            
-                        <Link
-                            to={{
-                            pathname:'/addScheme',
-                            state:{
-                                    govtId : props.Id
-                                  }
-                               }}
-                        style={{ color: '#000', textDecoration: 'none' }}
-                        >
-                            <Button
-                                className={addSchemeSlider ? " addSchemeButton   mt-4    " : "addSchemeButtonEffect mt-4  "}
-                                variant="outline-dark"
-                                style={{ 'borderRadius': '20px', fontSize: '22px', borderWidth: '5px' }}
-                                onMouseEnter={() => { setaddSchemeSlider(false) }}
-                                onMouseLeave={() => { setaddSchemeSlider(true) }}
-                            //  onClick={()=>download('on.json', 'text/plain')}
-                                >
-                                    ADD SCHEME
-                             </Button>
-                            </Link>
+                           
 
 
 
@@ -147,9 +116,9 @@ const StateDashBoard = (props) => {
                                     <SchemeComponent
                                         key={j}
                                         details={i}
-                                        from={'stateOrUnion'}
-                                        name={govtName}
-                                        >
+                                        from='central'
+                                        name={'central'}
+                                    >
                                     </SchemeComponent>))
                                 :
                                 ''
@@ -159,13 +128,12 @@ const StateDashBoard = (props) => {
                 </Card>
 
 
-            </Row>
-            :
-            <Redirect to="stateDashBoard"/>
-            
-            }
+            </Row>:
+            <Redirect to="/stateDashboard"/>
+                    }
         </>
+                    
     )
 }
 
-export default StateDashBoard
+export default withRouter(StateDashBoard)

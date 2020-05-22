@@ -2,51 +2,46 @@
 import React, { useState, Component, useEffect } from 'react'
 import { Button } from 'react-bootstrap';
 import Carousel from 'react-bootstrap/Carousel';
-// import ChatHttpServer from '../../utils/chatHttpServer';
-import { withRouter } from 'react-router'
+import ChatHttpServer from '../../utils/chatHttpServer';
+import { withRouter } from 'react-router';
+import CryptoJS from 'crypto-js';
+import Base64 from 'crypto-js/enc-base64';
 import { Redirect } from 'react-router'
 import './styler.css'
 
-class Login extends Component {
-  constructor(props) {
-    super(props);
 
-  }
-  render() {
-    return (
-      <React.Fragment>
-        <DisplayLoginCard p={this.props}>
 
-        </DisplayLoginCard>
-
-      </React.Fragment>
-    )
-  }
+function Login(props){
+  const loginHandler = ()=>{
+    props.loginHandler(true);
 }
-
-const DisplayLoginCard = (props) => {
-
   const [username, setUsername] = useState(""); 
   const [password, setPassword] = useState(""); 
-
-  //const [confirmPassword, setConfirmPassword] = useState("");
+  const[hashedPassword,sethashedPassword] = useState("")
+ 
 
   async function handleLogin(event) {
     event.preventDefault();
-    // try {
-    //   const response = await ChatHttpServer.login({ 'username': username, 'password': password });
-    //   console.log(response)
-    //   if (!response.isAuthenticated) {
-    //     console.log(response.isAuthenticated)
-    //     //props.isAuthenticated(response.isAuthenticated)
-    //     alert(response.message)
-    //   } else {
-    //     window.location.assign('/Home')
-    //    // props.p.history.push('/Home')
-    //   }
-    // } catch (error) {
-    //   alert('catch block error')
-    // }
+    let hashedPassword=CryptoJS.MD5(password).toString(CryptoJS.enc.Hex);
+    
+    console.log(hashedPassword)
+    try {
+      const response = await ChatHttpServer.login({ 'id': username, 'password': hashedPassword });
+      console.log(' response is :::::: '+response)
+      if (!response.isAuthenticated) {
+        console.log(response)
+        //props.isAuthenticated(response.isAuthenticated)
+        alert(response.message)
+      } else {
+        
+        console.log(response)
+        loginHandler()
+        window.location.assign('/stateDashboard')
+       // props.p.history.push('/Home')
+      }
+    } catch (error) {
+      alert(error)
+    }
   }
 
   return (
